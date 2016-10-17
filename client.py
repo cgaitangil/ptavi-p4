@@ -11,7 +11,6 @@ import socket
 SERVER = str(sys.argv[1])
 PORT = int(sys.argv[2])
 LINE = str(' '.join(sys.argv[3:]))
-print(SERVER)
 
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:

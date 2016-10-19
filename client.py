@@ -8,16 +8,13 @@ import sys
 import socket
 
 # Constantes. Dirección IP del servidor y contenido a enviar
+
 SERVER = str(sys.argv[1])
 PORT = int(sys.argv[2])
-LINE = str(' '.join(sys.argv[3:]))
-#MENSAJE = LINE[0:LINE.rfind('REGISTER')]  # Le quitamos la parte del registro
-#REGISTRO = LINE[LINE.rfind('REGISTER'):]
+LINE = sys.argv[3:]
+LINE[0] = LINE[0].upper()   # Enviar REGISTER con upper
+LINE = str(' '.join(LINE))
 
-#print('')
-#print('------Parte registro de la línea---------')
-#print(REGISTRO)
-#print('')
 
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:

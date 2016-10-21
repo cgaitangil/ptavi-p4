@@ -17,41 +17,35 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     def handle(self):
         
         Mensaje = self.rfile.read().decode('utf-8')
-        print('\n' + "El cliente nos manda:", Mensaje)
-
-
-        print(Mensaje.split(' '))        
+        print('\n' + "El cliente nos manda:" + '\n' + Mensaje)
+        print(Mensaje.split(' '))
         Usuario = Mensaje.split(' ')[1][4:]
+        T_exp = Mensaje.split(' ')[-1][:Mensaje.split(' ')[-1].find('\r')]
         print(Usuario)
+        print(T_exp)
         if Mensaje.split(' ')[0] == 'REGISTER':
-            self.wfile.write(b'SIP/2.0 OK\r\n\r\n')
-            self.Users[Usuario] = self.client_address[0]   
+            self.wfile.write(b'SIP/2.0 OK\r\n\r\n')            
+            if T_exp == '0':
+                try:
+                    del self.Users[Usuario]
+
+                except KeyError:
+                    print('Error: User to delete not found in REGISTER')
+                    self.wfile.write(b'Error: User to delete not found\r\n')
+            else:
+                self.Users[Usuario] = self.client_address[0] 
+
+
+        
+
+            
+        print('\n' + 'Usuarios:')
         print(self.Users)
-        print('\r\n' + '----------------------------------' + '\r\n')
-       # for line in self.rfile:
+        print('\r\n' + '----------------------------------')
+       
         
         #    try:
-         #   Mensaje = line.decode('utf-8')
-        #    Mensaje.split(' ')[-1] = Mensaje.split(' ')[-1][:-4]
-         #   print(Mensaje.split(' '))                
-         #   print(Mensaje.split(' ')[-1])
-         #   print("El cliente nos manda:", Mensaje)
-                
-         #     # Mandamos por socket el mensaje recib.
-            
-   #Sin eco         print('Enviando eco:', line.decode('utf-8'))  # Server eco
-                          
 
-
-         #   Usuario = Mensaje.split(' ')[1]   # Quitamos \r\n
-                
-         #   if Mensaje.split(' ')[0] == 'REGISTER':
-          #      
-         #       
-                
-           # print('Usuarios:')
-         #   print(self.Users, '\n')
-         
            # except:
             #print('Error: client.py <IP> <Port> register <User>')
            # self.wfile.write(bytes('Error: client.py <IP> <Port> register <User>', 'utf-8') + b'\r\n')    
